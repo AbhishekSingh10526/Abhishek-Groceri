@@ -1,8 +1,6 @@
+from . import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db
-
-## models
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -32,7 +30,6 @@ class Product(db.Model):
     price = db.Column(db.Float, nullable = False)
     man_date = db.Column(db.Date, nullable = False)
     
-    ## relationships
     carts = db.relationship('Cart', backref='product', lazy=True)
     orders = db.relationship('Order', backref='product', lazy=True)
 
@@ -40,8 +37,6 @@ class Category(db.Model):
     __tablename__ = 'category'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), nullable = False)
-
-    ## relationships
     products = db.relationship('Product', backref='category', lazy=True)
 
 class Cart(db.Model):
@@ -55,10 +50,7 @@ class Transaction(db.Model):
     datetime = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
     total = db.Column(db.Float, nullable = False)
-    
-    ## relationships
     orders = db.relationship('Order', backref='transaction', lazy=True)
-
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
