@@ -1,10 +1,10 @@
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 
-from models import db, User, Product, Category, Cart, Order, Transaction
 import datetime
 import re
-from app import app
+from app import app, db
+from models import User, Product, Category, Cart, Order, Transaction
 
 def auth_required(func):
     @wraps(func)

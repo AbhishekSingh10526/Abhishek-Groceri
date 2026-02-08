@@ -1,8 +1,6 @@
-from flask_sqlalchemy import SQLAlchemy
-from app import app
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
-db = SQLAlchemy(app)
+from app import db
 
 ## models
 
@@ -68,14 +66,3 @@ class Order(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable = False)
     quantity = db.Column(db.Integer, nullable = False)
     price = db.Column(db.Float, nullable = False)
-
-
-# create database if it doesn't exist
-with app.app_context():
-    db.create_all()
-    # create admin if admin does not exist
-    admin = User.query.filter_by(username='admin').first()
-    if not admin:
-        admin = User(username='admin', password='admin', name='admin', is_admin=True)
-        db.session.add(admin)
-        db.session.commit()
